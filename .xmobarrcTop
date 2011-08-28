@@ -5,10 +5,10 @@ Config { font = "-*-Fixed-*-R-Normal-*-10-*-*-*-*-*-*-*"
        , lowerOnStart = True
        , commands = [ Run Date "%a %b %d %T" "date" 10
 		    , Run Com "rhythmbox-client" ["--no-start", "--no-present", "--print-playing"] "rbc" 10
-                    , Run Volume "default" "Master" [] 10
+ 		    , Run Battery ["-L","25","-H","75","--high","green","--normal","yellow", "--low", "red"] 100
                     , Run StdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% } %rbc% { %default:Master% | <fc=#ee9a00>%date%</fc> "
+       , template = "%StdinReader% } %rbc% { %battery% <fc=#ee9a00>%date%</fc> "
        }
