@@ -12,10 +12,10 @@ import Data.Char(isAlphaNum)
 
 
 main = do
-    xmprocTop0 <- spawnPipe ".cabal/bin/xmobar -x 0 ~/.xmobarrcTop"
-    xmprocTop1 <- spawnPipe ".cabal/bin/xmobar -x 1 ~/.xmobarrcTop"
-    xmprocBot0 <- spawnPipe ".cabal/bin/xmobar -x 0 ~/.xmobarrcBottom"
-    xmprocBot1 <- spawnPipe ".cabal/bin/xmobar -x 1 ~/.xmobarrcBottom"
+    xmprocTop0 <- spawnPipe "xmobar -x 0 ~/.xmobarrcTop"
+    xmprocTop1 <- spawnPipe "xmobar -x 1 ~/.xmobarrcTop"
+    xmprocBot0 <- spawnPipe "xmobar -x 0 ~/.xmobarrcBottom"
+    xmprocBot1 <- spawnPipe "xmobar -x 1 ~/.xmobarrcBottom"
 
     xmonad $ defaultConfig
       { manageHook  = myManageHook
