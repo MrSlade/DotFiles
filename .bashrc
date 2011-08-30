@@ -99,4 +99,4 @@ fi
 
 export PATH=$PATH:~/.cabal/bin
 
-export EDITOR=/usr/bin/emacs
+export EDITOR=/usr/bin/vim
