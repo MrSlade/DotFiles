@@ -12,10 +12,10 @@ import Data.Char(isAlphaNum)
 
 
 main = do
-    xmprocTop0 <- spawnPipe ".cabal/bin/xmobar -x 0 ~/.xmobarrcTop"
-    xmprocTop1 <- spawnPipe ".cabal/bin/xmobar -x 1 ~/.xmobarrcTop"
-    xmprocBot0 <- spawnPipe ".cabal/bin/xmobar -x 0 ~/.xmobarrcBottom"
-    xmprocBot1 <- spawnPipe ".cabal/bin/xmobar -x 1 ~/.xmobarrcBottom"
+    xmprocTop0 <- spawnPipe "xmobar -x 0 ~/.xmobarrcTop"
+    xmprocTop1 <- spawnPipe "xmobar -x 1 ~/.xmobarrcTop"
+    xmprocBot0 <- spawnPipe "xmobar -x 0 ~/.xmobarrcBottom"
+    xmprocBot1 <- spawnPipe "xmobar -x 1 ~/.xmobarrcBottom"
 
     xmonad $ defaultConfig
       { manageHook  = myManageHook
@@ -26,29 +26,34 @@ main = do
         , ppOutput  = \x -> hPutStrLn xmprocTop0 x  >> hPutStrLn xmprocTop1 x
         , ppUrgent  = xmobarColor "orange" "" . xmobarStrip
         } 
-      , terminal    = "gnome-terminal"
+      , terminal    = "urxvt -fg Green -bg Black"
       , workspaces  = myWorkspaces
       , modMask     = mod4Mask -- Rebind Mod to the Windows key
       } 
-       `additionalKeysP` myAudioKeys
+       `additionalKeysP` audioKeys
+       `additionalKeysP` launchKeys
 
-myAudioKeys =
+audioKeys  =
     [("<XF86AudioRaiseVolume>", spawn "amixer -- sset Master Playback 5%+")
     ,("<XF86AudioLowerVolume>", spawn "amixer -- sset Master Playback 5%-")
     ,("<XF86AudioMute>",        spawn "amixer -- sset Master toggle")
     ,("M-<Up>",                 spawn "amixer -- sset Master Playback 5%+")
     ,("M-<Down>",               spawn "amixer -- sset Master Playback 5%-")
-    ,("M-f",                    spawn "rhythmbox-client --no-start --no-present --next")
+    ]
+
+launchKeys =
+    [("M-f",                    spawn "rhythmbox-client --no-start --no-present --next")
     ,("M-b",                    spawn "rhythmbox-client --no-start --no-present --previous")
     ,("M-x",                    spawn "rhythmbox-client --no-start --no-present --play-pause")
-    ,("M-c",                    spawn "chromium-browser")
+    ,("M-c",                    spawn "chromium")
+    ,("M-p",                    spawn "dmenu_run")
     ]
 
 myWorkspaces = map show [1..5] ++ ["Emacs", "Chat", "Music", "Web"]
 
 myManageHook = composeAll 
                [ className =? "Rhythmbox"        --> doShift "Music"
-               , className =? "Chromium-browser" --> doShift "Web"
+               , className =? "Chromium"         --> doShift "Web"
                , className =? "Pidgin"           --> doShift "Chat"
                , className =? "Emacs"            --> doShift "Emacs"
                , manageDocks
@@ -93,3 +98,4 @@ myLogHook  = do
         , ppOrder   = \(ws:_:t:_) -> [ws,t] 
         , ppUrgent  = xmobarColor "#ee9a00" "" . xmobarStrip
         } 
+
