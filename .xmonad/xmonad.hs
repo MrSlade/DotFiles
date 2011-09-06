@@ -26,7 +26,7 @@ main = do
         , ppOutput  = \x -> hPutStrLn xmprocTop0 x  >> hPutStrLn xmprocTop1 x
         , ppUrgent  = xmobarColor "orange" "" . xmobarStrip
         } 
-      , terminal    = "urxvt -fg Green -bg Black"
+      , terminal    = "gnome-terminal"
       , workspaces  = myWorkspaces
       , modMask     = mod4Mask -- Rebind Mod to the Windows key
       } 
